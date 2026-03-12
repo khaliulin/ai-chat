@@ -136,6 +136,9 @@ const IconChevron = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="
 const IconSearch = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>;
 const IconChat = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>;
 const IconMenu = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>;
+const IconRefresh = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>;
+const IconMagic = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h0"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg>;
+const IconMoreVertical = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>;
 
 // ─── CDEK AI Logo ──────────────────────────────────────────────────────
 const CdekAiLogo = ({ size = 32 }) => (
@@ -254,6 +257,33 @@ const iconOnlyBtn = {
     padding: 6, borderRadius: 8, display: "flex", alignItems: "center",
 };
 
+// ─── AI Response Actions ──────────────────────────────────────────────
+const AIResponseActions = ({ isCompact, onAction }) => {
+    const actions = ["Развернуть мысль", "Короче", "Больше контекста"];
+    return (
+        <div style={{
+            display: "flex", alignItems: "center", gap: 8, background: "#F5F5F5",
+            border: "1px solid #E8E8E8", borderRadius: 24, padding: "6px 12px", marginTop: 8,
+            width: "fit-content", boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)"
+        }}>
+            <IconMagic />
+            <div style={{ display: "flex", gap: 4 }}>
+                {actions.map((act) => (
+                    <button key={act} onClick={() => onAction(act)} style={{
+                        background: "#EBEBEB", border: "none", borderRadius: 8,
+                        padding: "6px 12px", fontSize: isCompact ? 11 : 12, color: "#666",
+                        fontWeight: 500, cursor: "pointer", transition: "all 0.15s", fontFamily: "inherit"
+                    }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = "#E0E0E0")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = "#EBEBEB")}
+                    >{act}</button>
+                ))}
+            </div>
+            <button style={{ background: "none", border: "none", padding: 4, cursor: "pointer", display: "flex", color: "#999" }}><IconMoreVertical /></button>
+        </div>
+    );
+};
+
 // ─── Message Bubble ────────────────────────────────────────────────────
 const MessageBubble = ({ message, isCompact }) => {
     const isUser = message.role === "user";
@@ -304,17 +334,19 @@ const MessageBubble = ({ message, isCompact }) => {
                 {message.isTyping ? <TypingIndicator /> : message.text}
             </div>
             {!isUser && !message.isTyping && (
-                <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4 }}>
-                    <button style={actionBtnStyle}><IconThumbUp /></button>
-                    <button style={actionBtnStyle}><IconThumbDown /></button>
-                    <div style={{ flex: 1 }} />
-                    <button onClick={handleShare} style={{ ...actionBtnStyle, gap: 4, fontSize: 11, color: shared ? "#333" : "#999", fontWeight: 500 }}>
-                        {shared ? "Скопировано" : ""} <IconShare />
+                <>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4, width: "100%" }}>
+                        <button style={actionBtnStyle}><IconThumbUp /></button>
+                        <button style={actionBtnStyle}><IconThumbDown /></button>
+                        <button onClick={handleCopy} style={{ ...actionBtnStyle, gap: 4, fontSize: 11, color: copied ? "#333" : "#999", fontWeight: 500 }}>
+                        {copied ? "Скопировано" : "КОПИРОВАТЬ"} <IconCopy />
                     </button>
-                    <button onClick={handleCopy} style={{ ...actionBtnStyle, gap: 4, fontSize: 11, color: copied ? "#333" : "#999", fontWeight: 500 }}>
-                        {copied ? "Скопировано" : "COPY"} <IconCopy />
-                    </button>
-                </div>
+                        <div style={{ flex: 1 }} />
+                        <button style={actionBtnStyle}><IconAudio /></button>
+                        <button style={actionBtnStyle}><IconRefresh /></button>
+                    </div>
+                    <AIResponseActions isCompact={isCompact} onAction={() => {}} />
+                </>
             )}
         </div>
     );
@@ -676,7 +708,7 @@ export default function AiAssistantPrototype() {
             <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 20px", background: "#1A1A1A", fontFamily: "'DM Sans', sans-serif", flexShrink: 0 }}>
                 <CdekAiLogo size={26} />
                 <span style={{ color: "#FFF", fontSize: 14, fontWeight: 600, marginRight: 16 }}>СДЭК AI-помощник</span>
-                {[{ id: "fullpage", label: "Full Page" }, { id: "sidebar", label: "Sidebar" }, { id: "float", label: "Float" }].map((m) => (
+                {[{ id: "fullpage", label: "Весь экран" }, { id: "sidebar", label: "Боковая панель" }, { id: "float", label: "Плавающий" }].map((m) => (
                     <button key={m.id} onClick={() => { setViewMode(m.id); resetChat(); }} style={{
                         background: viewMode === m.id ? "#444" : "rgba(255,255,255,0.06)",
                         color: viewMode === m.id ? "#FFF" : "#888",
