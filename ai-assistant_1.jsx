@@ -143,7 +143,8 @@ const IconBack = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="non
 const IconNewChat = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>;
 const IconThumbUp = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" /></svg>;
 const IconThumbDown = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" /></svg>;
-const IconCopy = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>;
+const IconCopy = ({ size = 14 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>;
+const IconCheck = ({ size = 14 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>;
 const IconShare = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" /></svg>;
 const IconAudio = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg>;
 const IconChevron = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>;
@@ -375,6 +376,105 @@ const AIResponseActions = ({ isCompact, onAction }) => {
     );
 };
 
+// ─── Code Block Component ──────────────────────────────────────────────
+const CodeBlock = ({ content, language }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(content);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const highlight = (code) => {
+        if (!code) return "";
+        let html = code
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+
+        // Strings
+        html = html.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, '<span style="color: #E6DB74">$1</span>');
+        
+        // Comments
+        html = html.replace(/(#.*$|\/\/.*$)/gm, '<span style="color: #75715E">$1</span>');
+
+        // Keywords & Commands
+        const keywords = /\b(curl|POST|GET|Authorization|Bearer|Content-Type|packages|recipient|from_location|to_location|type|number|tariff_code|name|phones|address|weight|length|width|height|orders|phones|location)\b/g;
+        html = html.replace(keywords, '<span style="color: #66D9EF; font-weight: 500">$1</span>');
+
+        // Shell flags
+        html = html.replace(/( -H | -d | -X | --data | --header )/g, '<span style="color: #A6E22E">$1</span>');
+
+        // Numbers
+        html = html.replace(/\b(\d+)\b/g, '<span style="color: #AE81FF">$1</span>');
+
+        return <span dangerouslySetInnerHTML={{ __html: html }} />;
+    };
+
+    const lines = content.split("\n");
+
+    return (
+        <div style={{
+            position: "relative",
+            background: "#121212",
+            borderRadius: "12px",
+            margin: "14px 0",
+            border: "1px solid #2A2A2A",
+            overflow: "hidden",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+        }}>
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "8px 14px",
+                background: "#1E1E1E",
+                borderBottom: "1px solid #2A2A2A"
+            }}>
+                <div style={{ display: "flex", gap: 5 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#FF5F56" }}></div>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#FFBD2E" }}></div>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#27C93F" }}></div>
+                    <span style={{ fontSize: "10px", color: "#666", marginLeft: 8, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.02em" }}>{language || "bash"}</span>
+                </div>
+                <button onClick={handleCopy} style={{
+                    background: copied ? "#27C93F22" : "rgba(255,255,255,0.05)", 
+                    border: "1px solid",
+                    borderColor: copied ? "#27C93F44" : "#444",
+                    borderRadius: "6px",
+                    color: copied ? "#27C93F" : "#BBB",
+                    fontSize: "11px", padding: "4px 10px", cursor: "pointer",
+                    display: "flex", alignItems: "center", gap: 6, transition: "all 0.2s",
+                    fontFamily: "inherit", fontWeight: 500
+                }}
+                onMouseEnter={e => { if(!copied) { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "#FFF" } }}
+                onMouseLeave={e => { if(!copied) { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "#BBB" } }}
+                >
+                    {copied ? <IconCheck size={12} /> : <IconCopy size={12} />}
+                    {copied ? "Скопировано" : "Копировать"}
+                </button>
+            </div>
+            <div style={{ display: "flex", position: "relative", overflowX: "auto" }}>
+                <div style={{
+                    padding: "16px 12px", background: "#181818", borderRight: "1px solid #2A2A2A",
+                    textAlign: "right", userSelect: "none", color: "#444", fontSize: "12px",
+                    fontFamily: "monospace", minWidth: "35px", flexShrink: 0
+                }}>
+                    {lines.map((_, i) => <div key={i} style={{ height: "1.6em" }}>{i + 1}</div>)}
+                </div>
+                <pre style={{
+                    margin: 0, padding: "16px", flex: 1,
+                    fontSize: "12px", color: "#F8F8F2", fontFamily: "'Fira Code', 'JetBrains Mono', 'Monaco', monospace",
+                    lineHeight: 1.6, whiteSpace: "pre"
+                }}>
+                    <code>{highlight(content)}</code>
+                </pre>
+            </div>
+        </div>
+    );
+};
+
 // ─── Message Bubble ────────────────────────────────────────────────────
 const MessageBubble = ({ message, isCompact }) => {
     const isUser = message.role === "user";
@@ -394,23 +494,47 @@ const MessageBubble = ({ message, isCompact }) => {
 
     const renderMessageContent = (text) => {
         if (!text) return null;
+        
+        // Split by code blocks first
         const parts = text.split(/(```[\s\S]*?```)/g);
+        
         return parts.map((part, i) => {
-            if (part.startsWith("```")) {
+            if (part && part.startsWith("```")) {
                 const lines = part.split("\n");
+                const lang = lines[0].replace("```", "").trim();
                 const content = lines.slice(1, -1).join("\n");
-                return (
-                    <pre key={i} style={{
-                        background: "#2D2D2D", color: "#F8F8F2", padding: "12px", borderRadius: "8px",
-                        overflowX: "auto", fontSize: "12px", border: "1px solid #1A1A1A",
-                        marginTop: "12px", marginBottom: "12px", fontFamily: "'Courier New', Courier, monospace",
-                        whiteSpace: "pre", boxShadow: "inset 0 1px 4px rgba(0,0,0,0.2)"
-                    }}>
-                        <code>{content}</code>
-                    </pre>
-                );
+                return <CodeBlock key={i} content={content} language={lang} />;
             }
-            return <span key={i}>{part}</span>;
+            
+            if (!part) return null;
+
+            // Handle links [text](url) and plain text
+            const subParts = part.split(/(\[.*?\]\(.*?\))/g);
+            return (
+                <span key={i} style={{ whiteSpace: "pre-line" }}>
+                    {subParts.map((sub, j) => {
+                        const linkMatch = sub.match(/\[(.*?)\]\((.*?)\)/);
+                        if (linkMatch) {
+                            return (
+                                <a key={`${i}-${j}`} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" 
+                                   style={{ 
+                                       color: "#0066FF", 
+                                       textDecoration: "none",
+                                       fontWeight: 500,
+                                       borderBottom: "1px solid transparent",
+                                       transition: "border-color 0.2s"
+                                   }}
+                                   onMouseEnter={e => e.currentTarget.style.borderBottomColor = "#0066FF"}
+                                   onMouseLeave={e => e.currentTarget.style.borderBottomColor = "transparent"}
+                                >
+                                    {linkMatch[1]}
+                                </a>
+                            );
+                        }
+                        return sub;
+                    })}
+                </span>
+            );
         });
     };
 
