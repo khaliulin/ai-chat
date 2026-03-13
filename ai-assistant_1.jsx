@@ -120,6 +120,11 @@ const DEMO_RESPONSES = {
         text: "Конечно! Интеграция со СДЭК API v2 довольно проста. 👨‍💻\n\nСначала нужно получить токен доступа по OAuth2. Вот пример запроса на создание заказа через cURL:\n\n```bash\ncurl -X POST 'https://api.cdek.ru/v2/orders' \\\n-H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>' \\\n-H 'Content-Type: application/json' \\\n-d '{\n  \"type\": 1,\n  \"number\": \"INV-123\",\n  \"tariff_code\": 136,\n  \"recipient\": {\n    \"name\": \"Иван Петров\",\n    \"phones\": [{\"number\": \"+79130000000\"}]\n  },\n  \"from_location\": {\"address\": \"Москва, ул. Ленина, 1\"},\n  \"to_location\": {\"address\": \"Новосибирск, Красный пр-т, 2\"},\n  \"packages\": [{\"weight\": 1000, \"length\": 10, \"width\": 10, \"height\": 10}]\n}'\n```\n\nВсю актуальную документацию, SDK и примеры для популярных языков (PHP, Python, JS) вы найдете на [apidoc.cdek.ru](https://apidoc.cdek.ru/). Есть вопросы по параметрам?",
         type: "api"
     },
+    wiki: {
+        text: "Я проанализировал вопросы из базы знаний CDEK Wiki (https://cdek.me/questions2) и подготовил для вас сводный отчет. 📊\n\nВ PDF-файле ниже вы найдете:\n• Статистику самых популярных запросов за последний месяц\n• Тренды в вопросах пользователей по качеству доставки\n• Рекомендации по обновлению разделов FAQ\n\nОтчет готов к скачиванию!",
+        type: "wiki",
+        file: { name: "CDEK_Questions_Report_2026.pdf", size: "2.4 MB", type: "pdf" }
+    },
 };
 
 function getResponseKey(text) {
@@ -128,6 +133,7 @@ function getResponseKey(text) {
     if (l.includes("стоим") || l.includes("доставк") || l.includes("тариф") || l.includes("рассчит")) return "delivery";
     if (l.includes("пункт") || l.includes("ближ") || l.includes("офис") || l.includes("пвз")) return "offices";
     if (l.includes("api") || l.includes("документац") || l.includes("разработчик") || l.includes("подключ")) return "api";
+    if (l.includes("wiki") || l.includes("отчет") || l.includes("отчёт") || l.includes("questions")) return "wiki";
     return "default";
 }
 
@@ -158,6 +164,8 @@ const IconSidebarToggle = () => <svg width="20" height="20" viewBox="0 0 24 24" 
 const IconPin = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="17" x2="12" y2="22" /><path d="M5 17h14v-2l-1.5-1.5V6a5.5 5.5 0 0 0-11 0v7.5L5 15v2z" /></svg>;
 const IconDots = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>;
 const IconSettings = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>;
+const IconDownload = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>;
+const IconFilePdf = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><path d="M12 18V12" /><path d="M9 15h6" /></svg>;
 
 // ─── CDEK AI Logo ──────────────────────────────────────────────────────
 const CdekAiLogo = ({ size = 32 }) => (
@@ -376,6 +384,40 @@ const AIResponseActions = ({ isCompact, onAction }) => {
     );
 };
 
+// ─── File Attachment Component ──────────────────────────────────────────
+const FileAttachment = ({ file, isCompact }) => {
+    return (
+        <div style={{
+            display: "flex", alignItems: "center", gap: 12, background: "#F9FAFB",
+            border: "1px solid #E5E7EB", borderRadius: 16, padding: "12px 16px",
+            marginTop: 12, width: isCompact ? "100%" : "320px",
+            animation: "msg-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)"
+        }}>
+            <div style={{
+                width: 44, height: 44, background: "#FEE2E2", borderRadius: 10,
+                display: "flex", alignItems: "center", justifyContent: "center", color: "#EF4444"
+            }}>
+                <IconFilePdf />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>{file.name}</div>
+                <div style={{ fontSize: 11, color: "#6B7280" }}>{file.size} · PDF документ</div>
+            </div>
+            <button style={{
+                background: "#F3F4F6", border: "none", borderRadius: "50%",
+                width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: "pointer", color: "#374151", transition: "all 0.2s"
+            }}
+                onMouseEnter={e => e.currentTarget.style.background = "#E5E7EB"}
+                onMouseLeave={e => e.currentTarget.style.background = "#F3F4F6"}
+                title="Скачать"
+            >
+                <IconDownload />
+            </button>
+        </div>
+    );
+};
+
 // ─── Code Block Component ──────────────────────────────────────────────
 const CodeBlock = ({ content, language }) => {
     const [copied, setCopied] = useState(false);
@@ -568,6 +610,7 @@ const MessageBubble = ({ message, isCompact }) => {
             }}>
                 {message.isTyping ? <TypingIndicator /> : renderMessageContent(message.text)}
             </div>
+            {!isUser && message.file && <FileAttachment file={message.file} isCompact={isCompact} />}
             {!isUser && !message.isTyping && (
                 <>
                     <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4, width: "100%" }}>
@@ -675,7 +718,7 @@ const CDEK_ACTIONS = [
     { icon: "💰", label: "Рассчитай цену", badge: null, q: "Как рассчитать стоимость доставки?" },
     { icon: "📌", label: "Найди ПВЗ", badge: null, q: "Ближайший пункт выдачи СДЭК" },
     { icon: "👨‍💻", label: "API CDEK", badge: null, q: "Как подключить API СДЭК для разработчиков?" },
-    { icon: "⏱️", label: "Сроки доставки", badge: null, q: "Сроки доставки между городами" },
+    { icon: "📖", label: "CDEK Wiki", badge: null, q: "Создай отчёт по вопросам в https://cdek.me/questions2" },
 ];
 
 const SuggestedQuestions = ({ onSelect, isCompact }) => {
@@ -1099,7 +1142,16 @@ export default function AiAssistantPrototype() {
         const key = getResponseKey(txt);
         setTimeout(() => {
             const now2 = new Date().toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
-            setMessages((p) => p.map((m) => m.isTyping ? { ...m, text: DEMO_RESPONSES[key].text, isTyping: false, time: now2, hasAudio: true, responseType: DEMO_RESPONSES[key].type } : m));
+            const resp = DEMO_RESPONSES[key];
+            setMessages((p) => p.map((m) => m.isTyping ? { 
+                ...m, 
+                text: resp.text, 
+                isTyping: false, 
+                time: now2, 
+                hasAudio: true, 
+                responseType: resp.type,
+                file: resp.file 
+            } : m));
         }, 1500);
     }, []);
 
