@@ -116,6 +116,10 @@ const DEMO_RESPONSES = {
     tracking: { text: "Ура, нашёл вашу посылочку CDEK-284759163! 📦✨\n\nОна сейчас в пути и бодро проезжает Новосибирск. Ожидаем, что она прибудет к вам уже 15 марта.\n\nКороткая хроника: 10 марта она выехала из Москвы, сейчас на сортировке. Ещё каких-то пару дней — и она ваша! Ждёте?", type: "tracking" },
     delivery: { text: "Давайте посчитаем, во сколько обойдётся доставка! 💰\n\nЦена обычно зависит от того, откуда и куда едем, сколько весим и как сильно торопимся.\n\nНапример:\n• Стандарт (Москва → Питер): от 350 ₽, 2–3 дня в пути.\n• Экспресс (если очень горит): от 590 ₽, доставят на следующий же день!\n\nХотите прикину точный маршрут?", type: "delivery" },
     offices: { text: "О, я знаю отличные места поблизости! 📍\n\nВот самые удобные пункты:\n1. ул. Ленина, 42 — совсем рядом (всего 350 м), работают до 20:00.\n2. пр. Мира, 15 — чуть дальше (800 м), зато открыты каждый день.\n3. ТЦ «Галерея», 2 этаж — если решите совместить с шопингом, работают до 22:00.\n\nТам можно всё примерить и рассмотреть перед получением. Заглянете?", type: "offices" },
+    api: { 
+        text: "Конечно! Интеграция со СДЭК API v2 довольно проста. 👨‍💻\n\nСначала нужно получить токен доступа по OAuth2. Вот пример запроса на создание заказа через cURL:\n\n```bash\ncurl -X POST 'https://api.cdek.ru/v2/orders' \\\n-H 'Authorization: Bearer <YOUR_ACCESS_TOKEN>' \\\n-H 'Content-Type: application/json' \\\n-d '{\n  \"type\": 1,\n  \"number\": \"INV-123\",\n  \"tariff_code\": 136,\n  \"recipient\": {\n    \"name\": \"Иван Петров\",\n    \"phones\": [{\"number\": \"+79130000000\"}]\n  },\n  \"from_location\": {\"address\": \"Москва, ул. Ленина, 1\"},\n  \"to_location\": {\"address\": \"Новосибирск, Красный пр-т, 2\"},\n  \"packages\": [{\"weight\": 1000, \"length\": 10, \"width\": 10, \"height\": 10}]\n}'\n```\n\nВсю актуальную документацию, SDK и примеры для популярных языков (PHP, Python, JS) вы найдете на [apidoc.cdek.ru](https://apidoc.cdek.ru/). Есть вопросы по параметрам?",
+        type: "api"
+    },
 };
 
 function getResponseKey(text) {
@@ -123,6 +127,7 @@ function getResponseKey(text) {
     if (l.includes("посылк") || l.includes("трек") || l.includes("отслед")) return "tracking";
     if (l.includes("стоим") || l.includes("доставк") || l.includes("тариф") || l.includes("рассчит")) return "delivery";
     if (l.includes("пункт") || l.includes("ближ") || l.includes("офис") || l.includes("пвз")) return "offices";
+    if (l.includes("api") || l.includes("документац") || l.includes("разработчик") || l.includes("подключ")) return "api";
     return "default";
 }
 
@@ -387,6 +392,28 @@ const MessageBubble = ({ message, isCompact }) => {
         setTimeout(() => setShared(false), 1500);
     };
 
+    const renderMessageContent = (text) => {
+        if (!text) return null;
+        const parts = text.split(/(```[\s\S]*?```)/g);
+        return parts.map((part, i) => {
+            if (part.startsWith("```")) {
+                const lines = part.split("\n");
+                const content = lines.slice(1, -1).join("\n");
+                return (
+                    <pre key={i} style={{
+                        background: "#2D2D2D", color: "#F8F8F2", padding: "12px", borderRadius: "8px",
+                        overflowX: "auto", fontSize: "12px", border: "1px solid #1A1A1A",
+                        marginTop: "12px", marginBottom: "12px", fontFamily: "'Courier New', Courier, monospace",
+                        whiteSpace: "pre", boxShadow: "inset 0 1px 4px rgba(0,0,0,0.2)"
+                    }}>
+                        <code>{content}</code>
+                    </pre>
+                );
+            }
+            return <span key={i}>{part}</span>;
+        });
+    };
+
     return (
         <div style={{
             display: "flex", flexDirection: "column",
@@ -415,7 +442,7 @@ const MessageBubble = ({ message, isCompact }) => {
                 fontSize: isCompact ? 13 : 14, lineHeight: 1.6, color: "#1A1A1A",
                 whiteSpace: "pre-line", boxShadow: isUser ? "none" : "0 1px 3px rgba(0,0,0,0.04)",
             }}>
-                {message.isTyping ? <TypingIndicator /> : message.text}
+                {message.isTyping ? <TypingIndicator /> : renderMessageContent(message.text)}
             </div>
             {!isUser && !message.isTyping && (
                 <>
@@ -523,7 +550,7 @@ const CDEK_ACTIONS = [
     { icon: "🛍️", label: "СДЭК Шоппинг", badge: "новое", q: null, shopping: true },
     { icon: "💰", label: "Рассчитай цену", badge: null, q: "Как рассчитать стоимость доставки?" },
     { icon: "📌", label: "Найди ПВЗ", badge: null, q: "Ближайший пункт выдачи СДЭК" },
-    { icon: "🔄", label: "Оформи возврат", badge: null, q: "Как оформить возврат?" },
+    { icon: "👨‍💻", label: "API CDEK", badge: null, q: "Как подключить API СДЭК для разработчиков?" },
     { icon: "⏱️", label: "Сроки доставки", badge: null, q: "Сроки доставки между городами" },
 ];
 
