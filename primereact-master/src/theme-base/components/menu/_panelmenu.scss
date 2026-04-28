@@ -1,0 +1,318 @@
+@mixin panelmenuitem-link {
+  > .p-menuitem-content {
+    color: $menuitemTextColor;
+    transition: $listItemTransition;
+    border-radius: $menuitemBorderRadius;
+
+    .p-menuitem-link {
+      color: $menuitemTextColor;
+      padding: $menuitemPadding;
+      user-select: none;
+
+      .p-menuitem-text {
+        color: $menuitemTextColor;
+      }
+
+      .p-menuitem-icon {
+        color: $menuitemIconColor;
+        margin-right: $inlineSpacing;
+      }
+
+      .p-submenu-icon {
+        color: $menuitemIconColor;
+      }
+    }
+  }
+
+  &.p-highlight {
+    > .p-menuitem-content {
+      color: $menuitemTextActiveColor;
+      background: $menuitemActiveBg;
+
+      .p-menuitem-link {
+        .p-menuitem-text {
+          color: $menuitemTextActiveColor;
+        }
+
+        .p-menuitem-icon,
+        .p-submenu-icon {
+          color: $menuitemIconActiveColor;
+        }
+      }
+    }
+
+    &.p-focus {
+      > .p-menuitem-content {
+        background: $menuitemActiveFocusBg;
+      }
+    }
+  }
+
+  &:not(.p-highlight):not(.p-disabled) {
+    &.p-focus {
+      > .p-menuitem-content {
+        color: $panelmenuItemTextActiveColor;
+        background: $panelmenuItemActiveBg;
+
+        .p-menuitem-link {
+          .p-menuitem-text {
+            color: $panelmenuItemTextActiveColor;
+          }
+
+          .p-menuitem-icon,
+          .p-submenu-icon {
+            color: $panelmenuItemTextActiveColor;
+          }
+        }
+      }
+    }
+
+    > .p-menuitem-content {
+      &:hover {
+        color: $panelmenuItemTextActiveHoverColor;
+        background: $panelmenuItemActiveHoverBg;
+
+        .p-menuitem-link {
+          .p-menuitem-text {
+            color: $panelmenuItemTextActiveHoverColor;
+          }
+
+          .p-menuitem-icon,
+          .p-submenu-icon {
+            color: $panelmenuItemTextActiveHoverColor;
+          }
+
+          &.p-disabled {
+            color: var(--navigation-item-disabledTextHoverColor);
+            border-color: var(--surface-400);
+            background: var(--surface-400);
+
+            .p-menuitem-text,
+            .p-menuitem-icon,
+            .p-submenu-icon {
+              color: var(--navigation-item-disabledTextHoverColor);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.p-panelmenu {
+  .p-panelmenu-header {
+    outline: 0 none;
+
+    .p-panelmenu-header-content {
+      border: $panelmenuHeaderBorder; // default $accordionHeaderBorder;
+      color: $accordionHeaderTextColor;
+      background: $accordionHeaderBg;
+      border-radius: $borderRadius;
+      transition: $listItemTransition;
+
+      .p-panelmenu-header-link {
+        color: $accordionHeaderTextColor;
+        padding: $panelmenuHeaderPadding; // default $accordionHeaderPadding;
+        font-weight: $panelmenuHeaderFontWeight; // default $accordionHeaderFontWeight;
+
+        .p-submenu-icon {
+          margin-right: $inlineSpacing;
+        }
+
+        .p-menuitem-icon {
+          margin-right: $inlineSpacing;
+        }
+      }
+    }
+
+    &:not(.p-disabled) {
+      &:focus-visible {
+        .p-panelmenu-header-content {
+          @include focused-inset();
+        }
+      }
+    }
+
+    &:not(.p-highlight):not(.p-disabled):hover {
+      .p-panelmenu-header-content {
+        background: $panelmenuHeaderHoverBg; // default $accordionHeaderHoverBg;
+        border-color: $panelmenuHeaderHoverBorderColor; // default $accordionHeaderHoverBorderColor;
+        color: $accordionHeaderTextHoverColor;
+      }
+    }
+
+    &:not(.p-disabled).p-highlight {
+      .p-panelmenu-header-content {
+        background: $panelmenuHeaderActiveBg; // default $accordionHeaderActiveBg;
+        border-color: $panelmenuHeaderActiveBorderColor; // default $accordionHeaderActiveBorderColor;
+        color: $panelmenuHeaderTextActiveColor; // default $accordionHeaderTextActiveColor;
+        border-bottom-right-radius: $borderRadius;
+        border-bottom-left-radius: $borderRadius;
+        margin-bottom: 0;
+
+        border-top-right-radius: $borderRadius;
+        border-top-left-radius: $borderRadius;
+
+        .p-panelmenu-header-link {
+          color: $panelmenuHeaderTextActiveColor;
+        }
+      }
+
+      &:hover {
+        .p-panelmenu-header-content {
+          border-color: $panelmenuHeaderActiveHoverBorderColor; // default $accordionHeaderActiveHoverBorderColor;
+          background: $panelmenuHeaderActiveHoverBg; // default $accordionHeaderActiveHoverBg;
+          color: $accordionHeaderTextActiveHoverColor;
+        }
+      }
+    }
+
+    &:is(.p-disabled) {
+      opacity: 1;
+      filter: none;
+      background: var(--surface-200);
+      border: 1px solid var(--navigation-item-disabledBorderColor);
+      border-radius: $borderRadius;
+      cursor: not-allowed;
+
+      .p-panelmenu-header-content {
+        .p-panelmenu-header-link {
+          color: var(--gray-400);
+        }
+      }
+    }
+  }
+
+  .p-panelmenu-content {
+    padding: 0.25rem 0 0 0.75rem; // default $verticalMenuPadding;
+    border: 0; // default $accordionContentBorder;
+    background: $accordionContentBg;
+    color: $accordionContentTextColor;
+    border-top: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: $borderRadius;
+    border-bottom-left-radius: $borderRadius;
+
+    .p-panelmenu-root-list {
+      outline: 0 none;
+    }
+
+    .p-menuitem {
+      @include panelmenuitem-link();
+
+      .p-menuitem-content {
+        .p-menuitem-link {
+          .p-submenu-icon {
+            margin-right: $inlineSpacing;
+          }
+
+          &.p-disabled {
+            opacity: 1;
+            filter: none;
+            background: var(--surface-200);
+            border: 1px solid var(--navigation-item-disabledBorderColor);
+            border-radius: $borderRadius;
+
+            .p-menuitem-text {
+              color: var(--gray-400);
+            }
+          }
+        }
+      }
+
+      &.p-focus {
+        > .p-menuitem-content {
+          .p-menuitem-link {
+            &.p-disabled {
+              color: var(--navigation-item-disabledTextHoverColor);
+              border-color: var(--surface-400);
+              background: var(--surface-400);
+
+              .p-menuitem-text,
+              .p-menuitem-icon,
+              .p-submenu-icon {
+                color: var(--navigation-item-disabledTextHoverColor);
+              }
+            }
+          }
+        }
+      }
+
+      + .p-menuitem {
+        margin-top: 0.25rem;
+      }
+    }
+
+    .p-menuitem-separator {
+      border-top: $divider;
+      margin: $menuSeparatorMargin;
+    }
+
+    .p-submenu-list:not(.p-panelmenu-root-list) {
+      padding: $treeNodeChildrenPadding;
+    }
+  }
+
+  .p-panelmenu-panel {
+    margin-bottom: $accordionSpacing;
+
+    @if $accordionSpacing == 0 {
+      .p-panelmenu-header {
+        .p-panelmenu-header-content {
+          border-radius: $borderRadius; // default 0;
+        }
+      }
+
+      .p-panelmenu-content {
+        border-radius: 0;
+      }
+
+      &:not(:first-child) {
+        .p-panelmenu-header {
+          .p-panelmenu-header-content {
+            border-top: 0 none;
+          }
+
+          &:not(.p-highlight):not(.p-disabled):hover,
+          &:not(.p-disabled).p-highlight:hover {
+            .p-panelmenu-header-content {
+              border-top: 0 none;
+            }
+          }
+        }
+      }
+
+      &:first-child {
+        .p-panelmenu-header {
+          .p-panelmenu-header-content {
+            border-top-right-radius: $borderRadius;
+            border-top-left-radius: $borderRadius;
+            border-bottom-right-radius: $borderRadius;
+            border-bottom-left-radius: $borderRadius;
+          }
+        }
+      }
+
+      &:last-child {
+        .p-panelmenu-header:not(.p-highlight) {
+          .p-panelmenu-header-content {
+            border-top-right-radius: $borderRadius;
+            border-top-left-radius: $borderRadius;
+            border-bottom-right-radius: $borderRadius;
+            border-bottom-left-radius: $borderRadius;
+          }
+        }
+
+        .p-panelmenu-content {
+          border-bottom-right-radius: $borderRadius;
+          border-bottom-left-radius: $borderRadius;
+        }
+      }
+    }
+
+    + .p-panelmenu-panel {
+      margin-top: 0.25rem;
+    }
+  }
+}

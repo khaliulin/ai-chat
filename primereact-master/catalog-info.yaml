@@ -1,0 +1,29 @@
+#nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: primereact
+  description: Библиотека UI kit на базе Prime React
+  tags:
+    - library
+    - typescript
+    - react
+    - superapp
+  links:
+    - title: Исходный код
+      url: https://gitcode.cdek.ru/cdek-it/frontdev/superapp-group/primereact
+      icon: sourceCode
+  annotations:
+    'com.cdek/maintainers': >
+      user:a.surin
+spec:
+  system: superapp-platform
+  owner: 'group:группа_разработки_платформы(e9f2f64b-d5d0-46b6-8278-8db1e09f7741)'
+  lifecycle: production
+  type: library
+  responsibleManager:
+    - user:i.arkhipov
+  responsibleDevelopers:
+    - user:iv.sychev
+    - user:m.nuriev
+    - user:e.pashko

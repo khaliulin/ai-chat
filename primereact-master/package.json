@@ -1,0 +1,137 @@
+{
+  "name": "@cdek/primereact",
+  "version": "2.3.22",
+  "description": "Тема для primereact",
+  "type": "module",
+  "scripts": {
+    "start": "storybook dev -p 6006 --ci",
+    "storybook": "npm start -p 6006",
+    "storybook:ci": "start-storybook -p 6006 --ci",
+    "build": "npm run clean && npm run cp && npm run build-themes",
+    "build-themes": "npm run build-theme-light",
+    "build-theme-light": "sass --load-path=node_modules/ --update src/themes/theme-light/theme.scss:dist/theme-light.css",
+    "build-theme-dark": "sass --load-path=node_modules/ --update src/themes/theme-dark/theme.scss:dist/theme-dark.css",
+    "clean": "rm -rf dist",
+    "test": "test-storybook --testTimeout 30000",
+    "test:update": "test-storybook --updateSnapshot --testTimeout 30000",
+    "cp": "cp -r src dist && cp package.json dist && cp -r src/themes/theme-light/fonts dist/fonts",
+    "package": "npm run build && npm pack",
+    "dev-version": "npm version prerelease --no-git-tag-version --force  --preid development",
+    "copy-static": "cp -r src/utils dist && cp -r src/themes/theme-light/fonts dist/fonts",
+    "build-storybook": "STORYBOOK_BUILD=true storybook build -o public",
+    "build-storybook-docs": "storybook build --docs",
+    "build-lib": "tsc --noEmit && vite build",
+    "parse-tokens": "ts-node scripts/parseTokens.ts"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./tailwind-config": {
+      "import": {
+        "types": "./dist/types/tailwind-config.d.ts",
+        "default": "./dist/tailwind-config.mjs"
+      },
+      "require": {
+        "types": "./dist/types/tailwind-config.d.ts",
+        "default": "./dist/tailwind-config.cjs"
+      }
+    },
+    "./dist/style.scss": {
+      "default": "./dist/style.scss"
+    },
+    "./dist/utils/mixins.scss": {
+      "sass": "./dist/utils/mixins.scss",
+      "default": "./dist/utils/mixins.scss"
+    },
+    "./dist/utils/icons.scss": {
+      "sass": "./dist/utils/icons.scss",
+      "default": "./dist/utils/icons.scss"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@cdek-it/typography": "^3.0.0",
+    "@tabler/icons-react": "^3.34.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.4",
+    "primereact": "^10.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@chromatic-com/storybook": "^5.1.1",
+    "@storybook/addon-a11y": "^10.3.3",
+    "@storybook/addon-docs": "^10.3.3",
+    "@storybook/addon-onboarding": "^10.3.3",
+    "@storybook/addon-themes": "^10.3.3",
+    "@storybook/jest": "0.2.3",
+    "@storybook/react-docgen-typescript-plugin": "1.0.1",
+    "@storybook/react-vite": "^10.3.3",
+    "@storybook/test-runner": "^0.24.3",
+    "@storybook/testing-library": "0.2.2",
+    "@tabler/icons-react": "3.31.0",
+    "@testing-library/jest-dom": "6.8.0",
+    "@testing-library/react": "16.3.0",
+    "@types/jest": "30.0.0",
+    "@types/jest-image-snapshot": "^6.4.1",
+    "@types/node": "^22.19.17",
+    "@vitejs/plugin-react": "^5.1.4",
+    "autoprefixer": "^10.4.21",
+    "classnames": "2.5.1",
+    "eslint": "9.34.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "eslint-plugin-storybook": "^10.3.3",
+    "jest": "27.5.1",
+    "jest-environment-jsdom": "27.5.1",
+    "jest-image-snapshot": "6.5.1",
+    "playwright": "1.55.0",
+    "postcss": "^8.5.6",
+    "prettier": "3.6.2",
+    "puppeteer": "24.19.0",
+    "react-docgen": "8.0.1",
+    "sass": "1.92.0",
+    "storybook": "^10.3.3",
+    "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.0",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-static-copy": "^3.2.0"
+  },
+  "optionalDependencies": {
+    "@swc/core-linux-x64-gnu": "1.13.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@github-ui/storybook-addon-performance-panel": "^1.1.4"
+  }
+}

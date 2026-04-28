@@ -1,0 +1,108 @@
+.p-badge {
+  background: $badgeBg;
+  color: $badgeTextColor;
+  font-size: $badgeFontSize;
+  font-weight: $badgeFontWeight;
+  min-width: $badgeMinWidth;
+  height: $badgeHeight;
+  line-height: $badgeHeight;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+
+  &.p-badge-secondary {
+    background-color: $badgeSecondaryBg;
+    color: $badgeSecondaryTextColor;
+  }
+
+  &.p-badge-success {
+    background-color: $badgeSuccessBg;
+    color: $badgeSuccessTextColor;
+  }
+
+  &.p-badge-info {
+    background-color: $badgeInfoBg;
+    color: $badgeInfoTextColor;
+  }
+
+  &.p-badge-warning {
+    background-color: $badgeWarningBg;
+    color: $badgeWarningTextColor;
+  }
+
+  &.p-badge-danger {
+    background-color: $badgeDangerBg;
+    color: $badgeDangerTextColor;
+  }
+
+  &.p-badge-lg {
+    font-size: $badgeFontSize;
+    min-width: 1.75rem;
+    height: 1.75rem;
+    line-height: 1.75rem;
+  }
+
+  &.p-badge-xl {
+    font-size: 0.875rem;
+    min-width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+  }
+
+  &.p-badge-dot {
+    border-radius: 50%;
+    min-width: $badgeDotSize;
+    height: $badgeDotSize;
+    padding: 0;
+
+    &.p-badge-secondary {
+      background-color: $badgeDotSecondaryBg;
+    }
+
+    &.p-badge-success {
+      background-color: $badgeDotSuccessBg;
+    }
+
+    &.p-badge-info {
+      background-color: $badgeDotInfoBg;
+    }
+
+    &.p-badge-warning {
+      background-color: $badgeDotWarningBg;
+    }
+
+    &.p-badge-danger {
+      background-color: $badgeDotDangerBg;
+    }
+
+    &.p-badge-lg {
+      min-width: 0.75rem;
+      height: 0.75rem;
+      line-height: 0.75rem;
+    }
+
+    &.p-badge-xl {
+      min-width: 1rem;
+      height: 1rem;
+      line-height: 1rem;
+    }
+  }
+}
+
+.p-overlay-badge {
+  position: relative;
+}
+
+.p-overlay-badge .p-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  transform-origin: 100% 0;
+  margin: 0;
+}
+
+// в прайм по-умолчанию бадж - круглый в кейсе с использованием аватара
+// .p-badge-no-gutter {
+//   padding: 0;
+//   border-radius: 50%;
+// }

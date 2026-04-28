@@ -1,0 +1,80 @@
+.p-divider-horizontal {
+  display: flex;
+  width: 100%;
+  position: relative;
+  align-items: center;
+
+  &:before {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    content: '';
+  }
+}
+
+.p-divider {
+  .p-divider-content {
+    background-color: $dividerContentBg;
+    color: $dividerContentTextColor;
+  }
+
+  &.p-divider-horizontal {
+    margin: $dividerHorizontalMargin;
+    padding: $dividerHorizontalPadding;
+
+    &:before {
+      border-top: $dividerSize $dividerColor;
+    }
+
+    .p-divider-content {
+      padding: 0 $inlineSpacing;
+    }
+  }
+
+  &.p-divider-vertical {
+    margin: $dividerVerticalMargin;
+    padding: $dividerVerticalPadding;
+
+    &:before {
+      border-left: $dividerSize $dividerColor;
+    }
+
+    .p-divider-content {
+      padding: $inlineSpacing 0;
+    }
+  }
+}
+
+.p-divider-horizontal.p-divider-left {
+  justify-content: flex-start;
+}
+
+.p-divider-solid.p-divider-horizontal:before {
+  border-top-style: solid;
+}
+
+.p-divider-dashed.p-divider-horizontal:before {
+  border-top-style: dashed;
+}
+
+.p-divider-dotted.p-divider-horizontal:before {
+  border-top-style: dotted;
+}
+
+.p-divider-vertical.p-divider-center {
+  align-items: center;
+}
+
+.p-divider-solid.p-divider-vertical:before {
+  border-left-style: solid;
+}
+
+.p-divider-dashed.p-divider-vertical:before {
+  border-left-style: dashed;
+}
+
+.p-divider-dotted.p-divider-vertical:before {
+  border-left-style: dotted;
+}

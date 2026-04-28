@@ -1,0 +1,156 @@
+@import './components/radiobutton';
+@import './components/button';
+
+.p-message {
+  .p-message-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .p-message-header {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .p-message-header-vertical-center {
+    align-items: center;
+  }
+
+  .p-message-header-content {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .p-message-header-content-centered {
+    align-items: center;
+  }
+
+  .p-message-header-content-column {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .p-message-close-button {
+    margin-left: 1rem;
+  }
+}
+
+.p-inline-message {
+  .p-inline-message-icon {
+    margin-right: calc($inlineSpacing * 2);
+  }
+}
+
+.p-inputtext {
+  line-height: normal;
+  border-radius: $borderRadiusXL;
+}
+
+.p-inputnumber-input.p-inputtext.p-disabled {
+  border-top-color: $gray-400;
+  border-bottom-color: $gray-400;
+}
+
+.p-checkbox {
+  & .p-checkbox-input {
+    border-radius: $borderRadiusLG;
+  }
+
+  & .p-checkbox-box {
+    border-radius: $borderRadiusLG;
+  }
+}
+
+.p-dropdown {
+  border-radius: $borderRadiusXL;
+
+  & .p-inputtext {
+    min-height: calc(2.5rem - 2px);
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+.p-dropdown-item {
+  &.p-highlight {
+    background-color: $surface-900;
+    color: $white-100;
+    &.p-focus {
+      background-color: $surface-700;
+    }
+  }
+
+  &:not(.p-highlight):not(.p-disabled) {
+    &.p-focus {
+      background: $gray-100;
+      border: 1px solid transparent;
+    }
+  }
+}
+
+.p-password-input ~ .p-input-icon {
+  line-height: 1;
+}
+
+.p-dialog {
+  border-radius: $borderRadius2XL;
+
+  .p-dialog-header {
+    border-top-right-radius: calc($borderRadius2XL - 1px);
+    border-top-left-radius: calc($borderRadius2XL - 1px);
+  }
+
+  .p-dialog-content {
+    &:last-of-type {
+      border-bottom-right-radius: calc($borderRadius2XL - 1px);
+      border-bottom-left-radius: calc($borderRadius2XL - 1px);
+    }
+  }
+
+  .p-dialog-footer {
+    border-bottom-right-radius: calc($borderRadius2XL - 1px);
+    border-bottom-left-radius: calc($borderRadius2XL - 1px);
+  }
+
+  &:not(:has(.p-dialog-header:not(.hidden):not(:empty))) .p-dialog-content {
+    border-top-right-radius: calc($borderRadius2XL - 1px);
+    border-top-left-radius: calc($borderRadius2XL - 1px);
+  }
+
+  &.p-dialog-maximized {
+    .p-dialog-header {
+      border-top-right-radius: calc($borderRadius2XL - 1px);
+      border-top-left-radius: calc($borderRadius2XL - 1px);
+    }
+
+    .p-dialog-content:last-of-type {
+      border-bottom-right-radius: calc($borderRadius2XL - 1px);
+      border-bottom-left-radius: calc($borderRadius2XL - 1px);
+    }
+
+    .p-dialog-footer {
+      border-bottom-right-radius: calc($borderRadius2XL - 1px);
+      border-bottom-left-radius: calc($borderRadius2XL - 1px);
+    }
+  }
+}
+
+$tooltipHoverShadow: 0 0.25rem 0.25rem 0 $black-20;
+
+.p-tooltip {
+  & .p-tooltip-text {
+    box-shadow: $tooltipHoverShadow;
+  }
+}
+
+.p-selectbutton {
+  border-radius: $borderRadiusXL;
+
+  &.p-button-group .p-button {
+    border-radius: $selectButtonBorderRadius;
+
+    &:not(:first-of-type):not(:last-of-type) {
+      border-radius: $selectButtonBorderRadius;
+    }
+  }
+}

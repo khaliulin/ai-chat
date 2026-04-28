@@ -1,0 +1,42 @@
+.p-radiobutton {
+  &.p-invalid {
+    & > .p-radiobutton-box {
+      border-color: $radiobuttonInvalidBorderColor;
+    }
+  }
+
+  &.p-highlight {
+    &.p-invalid {
+      & > .p-radiobutton-box {
+        border-color: $radiobuttonInvalidActiveBorderColor;
+      }
+    }
+  }
+
+  &:not(.p-disabled) {
+    &:has(.p-radiobutton-input:hover) {
+      .p-radiobutton-box {
+        border-color: $radiobuttonHoverBorderColor;
+      }
+    }
+  }
+
+  &:is(.p-disabled) {
+    opacity: 1;
+    filter: none;
+
+    .p-radiobutton-box {
+      background: $radiobuttonDisabledBg;
+    }
+
+    &.p-highlight {
+      .p-radiobutton-box {
+        border-color: $radiobuttonDisabledBorderColor;
+
+        .p-radiobutton-icon {
+          background: $radiobuttonDisabledIconBg;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+.p-breadcrumb {
+  background: $breadcrumbBg;
+  border: $breadcrumbBorder;
+  //   border-radius: $borderRadius;
+  padding: $breadcrumbPadding;
+
+  .p-breadcrumb-list {
+    li {
+      .p-menuitem-link {
+        transition: $listItemTransition;
+        border-radius: $breadcrumbItemBorderRadius;
+        padding: 0.25rem;
+
+        &:focus-visible {
+          @include focused();
+        }
+
+        .p-menuitem-text {
+          color: $breadcrumbItemTextColor;
+        }
+
+        .p-menuitem-icon {
+          color: $breadcrumbItemIconColor;
+        }
+
+        &:hover {
+          background-color: $breadcrumbItemHoverBg;
+
+          .p-menuitem-text {
+            color: $menuitemHoverTextColor;
+          }
+
+          .p-menuitem-icon {
+            color: $menuitemHoverIconColor;
+          }
+        }
+      }
+
+      &.p-menuitem-separator {
+        margin: 0 0.25rem;
+        color: $breadcrumbSeparatorColor;
+      }
+
+      &:last-child {
+        pointer-events: none;
+        opacity: 0.6;
+
+        .p-menuitem-text {
+          color: $breadcrumbLastItemTextColor;
+        }
+
+        .p-menuitem-icon {
+          color: $breadcrumbLastItemIconColor;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+.p-avatar {
+  height: 2rem;
+  width: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  color: $avatarTextColor;
+  background-color: $avatarBg;
+  border-radius: $avatarBorderRadius;
+
+  img {
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  &.p-avatar-image {
+    background-color: transparent;
+  }
+
+  .p-avatar-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &.p-avatar-lg {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+
+    .p-avatar-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &.p-avatar-xl {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.5rem;
+
+    .p-avatar-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.p-avatar-circle {
+  border-radius: 50%;
+}
+
+.p-avatar-group {
+  .p-avatar {
+    border: $avatarGroupAvatarBorder;
+  }
+}

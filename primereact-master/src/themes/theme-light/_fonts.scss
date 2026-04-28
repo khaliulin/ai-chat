@@ -1,0 +1,41 @@
+// PTSans family
+@font-face {
+  font-display: swap;
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/PT_Sans_Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/PT_Sans_Bold.woff2') format('woff2');
+}
+
+// TT Fellows family
+@font-face {
+  font-display: swap;
+  font-family: 'TT Fellows';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/TT_Fellows_Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'TT Fellows';
+  font-style: normal;
+  font-weight: 600;
+  src: url('./fonts/TT_Fellows_DemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'TT Fellows';
+  font-style: italic;
+  font-weight: 600;
+  src: url('./fonts/TT_Fellows_DemiBold_Italic.woff2') format('woff2');
+}

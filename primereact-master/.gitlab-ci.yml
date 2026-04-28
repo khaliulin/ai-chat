@@ -1,0 +1,114 @@
+image: docker-proxy.cdek.ru/cypress/browsers:node-22.21.0-chrome-141.0.7390.107-1-ff-144.0-edge-141.0.3537.92-1
+
+include:
+  - project: 'architecture/ci-scripts'
+    ref: 'master'
+    file: '/common/pipeline/.ci-scripts.yml'
+
+variables:
+  REGISTRY_URL: repo.cdek.ru
+  BUILD_DIR: "."
+  VERSION: "1.0"
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+
+stages:
+  # Шаг поднятия версии, должен запускаться только для коммита в master
+  - version
+  - test
+  # Шаги сборки проекта, запускается для feature веток и master
+  - build
+
+test-storybook:
+  stage: test
+  image: docker:25
+  services:
+    - docker:25-dind
+  when: manual
+  script:
+    - docker build --build-arg HTTP_PROXY=$HTTP_PROXY_ --build-arg NO_PROXY=$NO_PROXY -t storybook-test -f Dockerfile.test .
+    - docker run -v $(pwd)/__image_snapshots__:/usr/src/app/__image_snapshots__ storybook-test
+  artifacts:
+    paths:
+      - __image_snapshots__
+    when: always
+  tags:
+    - docker
+
+pages:
+  stage: build
+  when: manual
+  before_script:
+    - !reference [ '.ci-scripts', 'set_npmrc_registry' ]
+  script:
+    - !reference [ '.ci-scripts', 'npm_install' ]
+    - npm run build-storybook
+  artifacts:
+    paths:
+      - public
+  tags:
+    - docker
+
+build-feature:
+  when: manual
+  stage: build
+  only:
+    - /^feature*/
+    - /^hotfix*/
+    - /^bugfix*/
+    - /^release*/
+  before_script:
+    - !reference [ '.ci-scripts', 'set_npmrc_registry' ]
+  script:
+    - export PUPPETEER_SKIP_DOWNLOAD=1
+    - !reference [ '.ci-scripts', 'npm_install' ]
+    - npm version --no-git-tag-version --force  $(node -p "require('./package.json').version")-development.${CI_COMMIT_SHORT_SHA}
+    - npm run build-lib
+    - !reference [ '.ci-scripts', 'set_npmrc_publish' ]
+    - !reference [ '.ci-scripts', 'npm_publish' ]
+  tags:
+    - docker
+
+build-release:
+  when: manual
+  stage: build
+  only:
+    - tags
+  except:
+    - branches
+  before_script:
+    - !reference [ '.ci-scripts', 'set_npmrc_registry' ]
+  script:
+    - !reference [ '.ci-scripts', 'npm_install' ]
+    - npm run build-lib
+    - !reference [ '.ci-scripts', 'set_npmrc_publish' ]
+    - !reference [ '.ci-scripts', 'npm_publish' ]
+  tags:
+    - docker
+# Поднятие версии релиза
+# Запускается для master где имя коммита !== 'X.X.X'
+# Шаг должен поднять версию и сделать коммит в пушем, после чего должны в новом pipeline запуститься шаги build-release и publish-release
+version-release:
+  stage: version
+  # Запускается для master где имя коммита !== 'X.X.X'
+  # То есть запуск будет происходить для коммитов слияния и других, и не будет для коммита повышения версии
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master" && $CI_COMMIT_TITLE !~ /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/'
+  script:
+    - git config user.email "gitlab@cdek.ru"
+    - git config user.name "Gitlab"
+    # Поднятие версии и создания коммита с тегом
+    - |
+      SOURCE_BRANCH=$(echo "$CI_COMMIT_MESSAGE" | sed -nE "/Merge branch '([^']+)' into 'master'/s//\1/p")
+      echo "SOURCE_BRANCH: $SOURCE_BRANCH"
+      if [[ "$SOURCE_BRANCH" =~ ^release/.* ]]; then
+        npm version minor --force
+      else
+        npm version patch --force
+      fi
+    # push коммита с новой версией и тегом
+    - git push --tags -f https://$GITLAB_CI_USER:$PRIVATE_TOKEN@$CI_SERVER_FQDN/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git HEAD:$CI_COMMIT_REF_NAME
+  tags:
+    - docker

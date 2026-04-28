@@ -1,0 +1,8 @@
+# Build the docker image
+docker build -t storybook-test -f Dockerfile.test .
+
+# Run the tests
+docker run -v $(pwd)/__image_snapshots__:/usr/src/app/__image_snapshots__ storybook-test
+
+# Update the snapshots
+docker run -v $(pwd)/__image_snapshots__:/usr/src/app/__image_snapshots__ storybook-test ./run-tests-update.sh

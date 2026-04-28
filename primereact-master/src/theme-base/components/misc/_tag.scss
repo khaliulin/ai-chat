@@ -1,0 +1,60 @@
+@use 'sass:math';
+
+.p-tag {
+  height: 1.5rem;
+  background: $badgeBg;
+  color: $tagTextColor;
+  font-size: $badgeFontSize;
+  font-weight: $badgeFontWeight;
+  padding: $tagPadding;
+  border-radius: $borderRadius;
+
+  &.p-tag-success {
+    background-color: $tagSuccessBg; // у баджа success-300, а у тэга success-400
+    color: $badgeSuccessTextColor;
+  }
+
+  &.p-tag-info {
+    background-color: $badgeInfoBg;
+    color: $badgeInfoTextColor;
+  }
+
+  &.p-tag-warning {
+    background-color: $badgeWarningBg;
+    color: $badgeWarningTextColor;
+  }
+
+  &.p-tag-danger {
+    background-color: $badgeDangerBg;
+    color: $badgeDangerTextColor;
+  }
+
+  &.p-tag-secondary {
+    background-color: $badgeSecondaryBg;
+    color: $tagTextColor;
+  }
+
+  &.p-tag-rounded {
+    border-radius: 10rem;
+  }
+
+  .p-tag-icon {
+    margin-right: math.div($inlineSpacing, 2);
+    font-size: $badgeFontSize;
+
+    &.p-icon {
+      width: $badgeFontSize;
+      height: $badgeFontSize;
+    }
+  }
+
+  .p-tag-icon {
+    width: $badgeFontSize;
+    height: $badgeFontSize;
+  }
+
+  .p-tag-icon--base {
+    width: $tagFontSizeBase;
+    height: $tagFontSizeBase;
+  }
+}
