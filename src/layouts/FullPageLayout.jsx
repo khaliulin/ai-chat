@@ -6,8 +6,8 @@ export default function FullPageLayout(props) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex", fontFamily: "'PT Sans', sans-serif" }}>
-      <div style={{ width: sidebarCollapsed ? 48 : 260, height: "100%", flexShrink: 0 }}>
+    <div className="w-full h-full flex font-['PT_Sans',sans-serif]">
+      <div className={`h-full shrink-0 ${sidebarCollapsed ? "w-12" : "w-[260px]"}`}>
         <HistorySidebar
           onNewChat={props.onNewChat}
           onSelectChat={() => {}}
@@ -16,11 +16,7 @@ export default function FullPageLayout(props) {
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
       </div>
-      <div style={{
-        flex: 1, height: "100%",
-        background: "linear-gradient(180deg, #F5F5F5 0%, #FAFAFA 30%, #FFF 100%)",
-        display: "flex", flexDirection: "column",
-      }}>
+      <div className="flex-1 h-full flex flex-col" style={{ background: "linear-gradient(180deg, #F5F5F5 0%, #FAFAFA 30%, #FFF 100%)" }}>
         <ChatContent {...props} isCompact={false} showGreeting={true} />
       </div>
     </div>

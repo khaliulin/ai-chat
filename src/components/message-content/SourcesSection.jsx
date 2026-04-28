@@ -6,29 +6,20 @@ export default function SourcesSection({ isCompact }) {
   const shown = expanded ? SOURCES : SOURCES.slice(0, 3);
 
   return (
-    <div style={{ marginTop: 4 }}>
-      <div style={{ fontSize: 12, color: "#777", fontWeight: 500, marginBottom: 8, display: "flex", alignItems: "center", gap: 4 }}>
+    <div className="mt-1">
+      <div className="text-xs text-[#777] font-medium mb-2 flex items-center gap-1">
         Источники
-        <span style={{ background: "#F0F0F0", color: "#555", borderRadius: 10, padding: "1px 6px", fontSize: 10, fontWeight: 600 }}>{SOURCES.length}</span>
+        <span className="bg-[#F0F0F0] text-[#555] rounded-[10px] px-1.5 py-px text-[10px] font-semibold">{SOURCES.length}</span>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+      <div className="flex flex-wrap gap-1.5">
         {shown.map((s, i) => (
-          <div key={i} style={{
-            background: "#F5F5F5", borderRadius: 20, padding: "5px 12px",
-            fontSize: isCompact ? 10 : 11, color: "#444", cursor: "pointer",
-            display: "flex", alignItems: "center", gap: 4,
-            maxWidth: isCompact ? "100%" : 280, overflow: "hidden",
-            whiteSpace: "nowrap", textOverflow: "ellipsis", border: "1px solid #E8E8E8",
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#888", flexShrink: 0 }} />
+          <div key={i} className={`bg-[#F5F5F5] rounded-[20px] px-3 py-[5px] text-[#444] cursor-pointer flex items-center gap-1 overflow-hidden whitespace-nowrap text-ellipsis border border-[#E8E8E8] ${isCompact ? "text-[10px] max-w-full" : "text-[11px] max-w-[280px]"}`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#888] shrink-0" />
             {s.label}
           </div>
         ))}
         {!expanded && (
-          <button onClick={() => setExpanded(true)} style={{
-            background: "#FAFAFA", border: "1px solid #E0E0E0", borderRadius: 20,
-            padding: "5px 12px", fontSize: 11, color: "#777", cursor: "pointer", fontFamily: "inherit",
-          }}>
+          <button onClick={() => setExpanded(true)} className="bg-[#FAFAFA] border border-[#E0E0E0] rounded-[20px] px-3 py-[5px] text-[11px] text-[#777] cursor-pointer font-[inherit]">
             ← Ещё источники
           </button>
         )}

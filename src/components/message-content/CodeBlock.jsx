@@ -31,46 +31,24 @@ export default function CodeBlock({ content, language }) {
   const lines = content.split("\n");
 
   return (
-    <div style={{
-      position: "relative", background: "#121212", borderRadius: "12px",
-      margin: "14px 0", border: "1px solid #2A2A2A", overflow: "hidden",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-    }}>
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        padding: "8px 14px", background: "#1E1E1E", borderBottom: "1px solid #2A2A2A",
-      }}>
-        <div style={{ display: "flex", gap: 5 }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#FF5F56" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#FFBD2E" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#27C93F" }} />
-          <span style={{ fontSize: "10px", color: "#666", marginLeft: 8, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.02em" }}>{language || "bash"}</span>
+    <div className="relative bg-[#121212] rounded-xl my-3.5 border border-[#2A2A2A] overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.15)]">
+      <div className="flex justify-between items-center px-3.5 py-2 bg-[#1E1E1E] border-b border-[#2A2A2A]">
+        <div className="flex gap-[5px]">
+          <div className="w-2 h-2 rounded-full bg-[#FF5F56]" />
+          <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+          <div className="w-2 h-2 rounded-full bg-[#27C93F]" />
+          <span className="text-[10px] text-[#666] ml-2 font-semibold uppercase tracking-[0.02em]">{language || "bash"}</span>
         </div>
-        <button onClick={handleCopy} style={{
-          background: copied ? "#27C93F22" : "rgba(255,255,255,0.05)",
-          border: "1px solid", borderColor: copied ? "#27C93F44" : "#444",
-          borderRadius: "6px", color: copied ? "#27C93F" : "#BBB",
-          fontSize: "11px", padding: "4px 10px", cursor: "pointer",
-          display: "flex", alignItems: "center", gap: 6, transition: "all 0.2s",
-          fontFamily: "inherit", fontWeight: 500,
-        }}>
+        <button onClick={handleCopy} className={`border rounded-md text-[11px] px-2.5 py-1 cursor-pointer flex items-center gap-1.5 transition-all duration-200 font-[inherit] font-medium ${copied ? "bg-[#27C93F22] border-[#27C93F44] text-[#27C93F]" : "bg-[rgba(255,255,255,0.05)] border-[#444] text-[#BBB]"}`}>
           {copied ? <IconCheck size={12} /> : <IconCopy size={12} />}
           {copied ? "Скопировано" : "Копировать"}
         </button>
       </div>
-      <div style={{ display: "flex", position: "relative", overflowX: "auto" }}>
-        <div style={{
-          padding: "16px 12px", background: "#181818", borderRight: "1px solid #2A2A2A",
-          textAlign: "right", userSelect: "none", color: "#444", fontSize: "12px",
-          fontFamily: "monospace", minWidth: "35px", flexShrink: 0,
-        }}>
-          {lines.map((_, i) => (<div key={i} style={{ height: "1.6em" }}>{i + 1}</div>))}
+      <div className="flex relative overflow-x-auto">
+        <div className="p-4 pl-3 bg-[#181818] border-r border-[#2A2A2A] text-right select-none text-[#444] text-xs font-mono min-w-[35px] shrink-0">
+          {lines.map((_, i) => (<div key={i} className="h-[1.6em]">{i + 1}</div>))}
         </div>
-        <pre style={{
-          margin: 0, padding: "16px", flex: 1,
-          fontSize: "12px", color: "#F8F8F2", fontFamily: "'Fira Code', 'JetBrains Mono', 'Monaco', monospace",
-          lineHeight: 1.6, whiteSpace: "pre",
-        }}>
+        <pre className="m-0 p-4 flex-1 text-xs text-[#F8F8F2] font-['Fira_Code','JetBrains_Mono','Monaco',monospace] leading-[1.6] whitespace-pre">
           <code>{highlight(content)}</code>
         </pre>
       </div>

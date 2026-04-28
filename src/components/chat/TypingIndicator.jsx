@@ -12,13 +12,11 @@ export default function TypingIndicator() {
   }, []);
 
   return (
-    <div style={{ padding: "8px 0", fontStyle: "italic", color: "#888", fontSize: 13, display: "flex", alignItems: "center", gap: 8 }}>
-      <div style={{ display: "flex", gap: 3 }}>
+    <div className="py-2 italic text-[#888] text-[13px] flex items-center gap-2">
+      <div className="flex gap-[3px]">
         {[0, 1, 2].map((i) => (
-          <div key={i} style={{
-            width: 4, height: 4, borderRadius: "50%", background: "#999",
-            animation: `typing-bounce 1.4s ease-in-out ${i * 0.2}s infinite`,
-          }} />
+          <div key={i} className="w-1 h-1 rounded-full bg-[#999]"
+            style={{ animation: `typing-bounce 1.4s ease-in-out ${i * 0.2}s infinite` }} />
         ))}
       </div>
       {phrase}

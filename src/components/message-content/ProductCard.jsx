@@ -4,41 +4,36 @@ import { SHOPPING_PRODUCTS } from "../../data/mockResponses.js";
 
 function ShoppingCards({ onOrder, isCompact }) {
   return (
-    <div style={{ animation: "msg-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-      <div style={{ fontSize: isCompact ? 11 : 12, color: "#999", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>
+    <div className="animate-[msg-appear_0.4s_cubic-bezier(0.34,1.56,0.64,1)]">
+      <div className={`text-[#999] mb-2.5 uppercase tracking-wide font-semibold ${isCompact ? "text-[11px]" : "text-xs"}`}>
         СДЭК Шоппинг — рекомендуем
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: isCompact ? "1fr" : "1fr 1fr", gap: 10 }}>
+      <div className={`grid gap-2.5 ${isCompact ? "grid-cols-1" : "grid-cols-2"}`}>
         {SHOPPING_PRODUCTS.map((p) => (
-          <button key={p.id} onClick={() => onOrder(p)} style={{
-            background: "#FFF", border: "1px solid #E5E7EB", borderRadius: 16, padding: 14,
-            textAlign: "left", cursor: "pointer", fontFamily: "inherit",
-            transition: "all 0.2s", boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-          }}>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-              <div style={{ fontSize: 28, lineHeight: 1, flexShrink: 0 }}>{p.img}</div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 6,
-                    background: p.badge.startsWith("−") ? "#FEF3C7" : p.badge === "Хит" ? "#DBEAFE" : "#F0FDF4",
-                    color: p.badge.startsWith("−") ? "#92400E" : p.badge === "Хит" ? "#1E40AF" : "#14532D",
-                    textTransform: "uppercase", letterSpacing: "0.04em",
-                  }}>{p.badge}</span>
+          <button key={p.id} onClick={() => onOrder(p)} className="bg-white border border-[#E5E7EB] rounded-2xl p-3.5 text-left cursor-pointer font-[inherit] transition-all duration-200 shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
+            <div className="flex items-start gap-2.5">
+              <div className="text-[28px] leading-none shrink-0">{p.img}</div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-[0.04em]"
+                    style={{
+                      background: p.badge.startsWith("−") ? "#FEF3C7" : p.badge === "Хит" ? "#DBEAFE" : "#F0FDF4",
+                      color: p.badge.startsWith("−") ? "#92400E" : p.badge === "Хит" ? "#1E40AF" : "#14532D",
+                    }}>{p.badge}</span>
                 </div>
-                <div style={{ fontSize: isCompact ? 11 : 12, fontWeight: 600, color: "#111827", marginBottom: 3, lineHeight: 1.3 }}>{p.name}</div>
-                <div style={{ fontSize: isCompact ? 10 : 11, color: "#9CA3AF", marginBottom: 6 }}>{p.desc}</div>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontSize: isCompact ? 12 : 13, fontWeight: 700, color: "#111827" }}>{p.price}</span>
-                  {p.oldPrice && <span style={{ fontSize: 10, color: "#9CA3AF", textDecoration: "line-through" }}>{p.oldPrice}</span>}
+                <div className={`font-semibold text-[#111827] mb-[3px] leading-tight ${isCompact ? "text-[11px]" : "text-xs"}`}>{p.name}</div>
+                <div className={`text-[#9CA3AF] mb-1.5 ${isCompact ? "text-[10px]" : "text-[11px]"}`}>{p.desc}</div>
+                <div className="flex items-center gap-1.5">
+                  <span className={`font-bold text-[#111827] ${isCompact ? "text-xs" : "text-[13px]"}`}>{p.price}</span>
+                  {p.oldPrice && <span className="text-[10px] text-[#9CA3AF] line-through">{p.oldPrice}</span>}
                 </div>
-                <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 4 }}>★ {p.rating} · {p.reviews} отзывов</div>
+                <div className="text-[10px] text-[#9CA3AF] mt-1">★ {p.rating} · {p.reviews} отзывов</div>
               </div>
             </div>
           </button>
         ))}
       </div>
-      <div style={{ marginTop: 12, fontSize: isCompact ? 11 : 12, color: "#6B7280", padding: "10px 12px", background: "#F9FAFB", borderRadius: 10, border: "1px solid #E5E7EB" }}>
+      <div className={`mt-3 text-[#6B7280] px-3 py-2.5 bg-[#F9FAFB] rounded-[10px] border border-[#E5E7EB] ${isCompact ? "text-[11px]" : "text-xs"}`}>
         Нажмите на товар, чтобы узнать подробности и оформить заказ с доставкой СДЭК 🚀
       </div>
     </div>
@@ -47,35 +42,27 @@ function ShoppingCards({ onOrder, isCompact }) {
 
 function ProductOrder({ product, onBack, isCompact }) {
   return (
-    <div style={{ animation: "msg-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-      <button onClick={onBack} style={{
-        background: "none", border: "none", cursor: "pointer", color: "#777",
-        fontSize: isCompact ? 11 : 12, marginBottom: 10, padding: 0, fontFamily: "inherit",
-        display: "flex", alignItems: "center", gap: 4,
-      }}>
+    <div className="animate-[msg-appear_0.4s_cubic-bezier(0.34,1.56,0.64,1)]">
+      <button onClick={onBack} className={`bg-none border-none cursor-pointer text-[#777] mb-2.5 p-0 font-[inherit] flex items-center gap-1 ${isCompact ? "text-[11px]" : "text-xs"}`}>
         <IconChevronLeft size={18} /><span>Назад к каталогу</span>
       </button>
-      <div style={{ background: "#FFF", border: "1px solid #E5E7EB", borderRadius: 16, padding: 16, marginBottom: 10 }}>
-        <div style={{ fontSize: 28, marginBottom: 8 }}>{product.img}</div>
-        <div style={{ fontSize: isCompact ? 13 : 15, fontWeight: 700, color: "#111827", marginBottom: 4 }}>{product.name}</div>
-        <div style={{ fontSize: isCompact ? 11 : 12, color: "#6B7280", marginBottom: 10 }}>{product.desc}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-          <span style={{ fontSize: isCompact ? 16 : 18, fontWeight: 700, color: "#111827" }}>{product.price}</span>
-          {product.oldPrice && <span style={{ fontSize: 12, color: "#9CA3AF", textDecoration: "line-through" }}>{product.oldPrice}</span>}
+      <div className="bg-white border border-[#E5E7EB] rounded-2xl p-4 mb-2.5">
+        <div className="text-[28px] mb-2">{product.img}</div>
+        <div className={`font-bold text-[#111827] mb-1 ${isCompact ? "text-[13px]" : "text-[15px]"}`}>{product.name}</div>
+        <div className={`text-[#6B7280] mb-2.5 ${isCompact ? "text-[11px]" : "text-xs"}`}>{product.desc}</div>
+        <div className="flex items-center gap-2 mb-3.5">
+          <span className={`font-bold text-[#111827] ${isCompact ? "text-base" : "text-lg"}`}>{product.price}</span>
+          {product.oldPrice && <span className="text-xs text-[#9CA3AF] line-through">{product.oldPrice}</span>}
         </div>
-        <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 10 }}>★ {product.rating} · {product.reviews} отзывов</div>
-        <div style={{ fontSize: isCompact ? 11 : 12, color: "#374151", background: "#F3F4F6", borderRadius: 10, padding: "8px 12px", marginBottom: 12 }}>
+        <div className="text-[11px] text-[#6B7280] mb-2.5">★ {product.rating} · {product.reviews} отзывов</div>
+        <div className={`text-[#374151] bg-[#F3F4F6] rounded-[10px] px-3 py-2 mb-3 ${isCompact ? "text-[11px]" : "text-xs"}`}>
           🚚 Доставка СДЭК от <b>2 дней</b> · Стандарт от <b>350 ₽</b> · Экспресс от <b>590 ₽</b>
         </div>
-        <button style={{
-          width: "100%", background: "#1A1A1A", color: "#FFF", border: "none",
-          borderRadius: 12, padding: isCompact ? "10px" : "12px", fontSize: isCompact ? 12 : 13,
-          fontWeight: 600, cursor: "pointer", fontFamily: "inherit", transition: "all 0.2s",
-        }}>
+        <button className={`w-full bg-[#1A1A1A] text-white border-none rounded-xl font-semibold cursor-pointer font-[inherit] transition-all duration-200 ${isCompact ? "p-2.5 text-xs" : "p-3 text-[13px]"}`}>
           Заказать с доставкой СДЭК
         </button>
       </div>
-      <div style={{ fontSize: isCompact ? 10 : 11, color: "#9CA3AF", textAlign: "center" }}>
+      <div className={`text-[#9CA3AF] text-center ${isCompact ? "text-[10px]" : "text-[11px]"}`}>
         Перейдёте на сайт СДЭК Шоппинг для завершения заказа
       </div>
     </div>

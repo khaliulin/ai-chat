@@ -3,49 +3,36 @@ import { useChatHistory } from "../../hooks/useChatHistory.js";
 import HistorySearch from "./HistorySearch.jsx";
 import HistoryItem from "./HistoryItem.jsx";
 
-const iconOnlyBtn = {
-  background: "none", border: "none", cursor: "pointer", color: "#777",
-  padding: 6, borderRadius: 8, display: "flex", alignItems: "center",
-};
+const iconOnlyBtnClass = "bg-none border-none cursor-pointer text-[#777] p-1.5 rounded-lg flex items-center";
 
 export default function HistorySidebar({ onNewChat, onSelectChat, activeChat, collapsed, onToggle }) {
   const { filteredChats, pinnedChats, groupedChats, searchQuery, setSearchQuery, menuOpenId, setMenuOpenId } = useChatHistory();
 
   if (collapsed) {
     return (
-      <div style={{
-        width: 48, height: "100%", background: "#FAFAFA", borderRight: "1px solid #EBEBEB",
-        display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 12, gap: 8, flexShrink: 0,
-      }}>
-        <button onClick={onToggle} style={iconOnlyBtn} title="Развернуть"><IconMenu2 size={18} /></button>
-        <button onClick={onNewChat} style={iconOnlyBtn} title="Новый чат"><IconEdit size={16} /></button>
+      <div className="w-12 h-full bg-[#FAFAFA] border-r border-[#EBEBEB] flex flex-col items-center pt-3 gap-2 shrink-0">
+        <button onClick={onToggle} className={iconOnlyBtnClass} title="Развернуть"><IconMenu2 size={18} /></button>
+        <button onClick={onNewChat} className={iconOnlyBtnClass} title="Новый чат"><IconEdit size={16} /></button>
       </div>
     );
   }
 
   return (
-    <div style={{
-      width: "100%", height: "100%", background: "#FAFAFA", borderRight: "1px solid #EBEBEB",
-      display: "flex", flexDirection: "column", flexShrink: 0, fontFamily: "'PT Sans', sans-serif",
-    }}>
-      <div style={{ padding: "12px 12px 8px", display: "flex", alignItems: "center", gap: 6 }}>
-        <button onClick={onToggle} style={iconOnlyBtn} title="Свернуть"><IconMenu2 size={18} /></button>
-        <div style={{ flex: 1 }} />
-        <button onClick={onNewChat} style={{
-          display: "flex", alignItems: "center", gap: 6, background: "#1A1A1A",
-          color: "#FFF", border: "none", borderRadius: 10, padding: "7px 14px",
-          fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
-        }}>
+    <div className="w-full h-full bg-[#FAFAFA] border-r border-[#EBEBEB] flex flex-col shrink-0 font-['PT_Sans',sans-serif]">
+      <div className="px-3 pt-3 pb-2 flex items-center gap-1.5">
+        <button onClick={onToggle} className={iconOnlyBtnClass} title="Свернуть"><IconMenu2 size={18} /></button>
+        <div className="flex-1" />
+        <button onClick={onNewChat} className="flex items-center gap-1.5 bg-[#1A1A1A] text-white border-none rounded-[10px] px-3.5 py-[7px] text-xs font-semibold cursor-pointer font-[inherit]">
           <IconEdit size={16} /> Новый чат
         </button>
       </div>
 
       <HistorySearch value={searchQuery} onChange={setSearchQuery} />
 
-      <div style={{ flex: 1, overflowY: "auto", padding: "0 8px" }}>
+      <div className="flex-1 overflow-y-auto px-2">
         {pinnedChats.length > 0 && (
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 10, fontWeight: 600, color: "#AAA", textTransform: "uppercase", letterSpacing: "0.05em", padding: "10px 8px 4px", display: "flex", alignItems: "center", gap: 4 }}>
+          <div className="mb-4">
+            <div className="text-[10px] font-semibold text-[#AAA] uppercase tracking-wide px-2 pt-2.5 pb-1 flex items-center gap-1">
               <IconPin size={12} /> Избранное
             </div>
             {pinnedChats.map((c) => (
@@ -56,7 +43,7 @@ export default function HistorySidebar({ onNewChat, onSelectChat, activeChat, co
 
         {Object.entries(groupedChats).map(([date, chats]) => (
           <div key={date}>
-            <div style={{ fontSize: 10, fontWeight: 600, color: "#AAA", textTransform: "uppercase", letterSpacing: "0.05em", padding: "10px 8px 4px" }}>{date}</div>
+            <div className="text-[10px] font-semibold text-[#AAA] uppercase tracking-wide px-2 pt-2.5 pb-1">{date}</div>
             {chats.map((c) => (
               <HistoryItem key={c.id} chat={c} activeChat={activeChat} onSelectChat={onSelectChat} menuOpenId={menuOpenId} setMenuOpenId={setMenuOpenId} />
             ))}
@@ -64,7 +51,7 @@ export default function HistorySidebar({ onNewChat, onSelectChat, activeChat, co
         ))}
 
         {filteredChats.length === 0 && (
-          <div style={{ padding: 16, fontSize: 12, color: "#AAA", textAlign: "center" }}>Ничего не найдено</div>
+          <div className="p-4 text-xs text-[#AAA] text-center">Ничего не найдено</div>
         )}
       </div>
     </div>

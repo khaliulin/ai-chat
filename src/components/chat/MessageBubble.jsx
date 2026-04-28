@@ -6,10 +6,7 @@ import CodeBlock from "../message-content/CodeBlock.jsx";
 import AttachmentLink from "../message-content/AttachmentLink.jsx";
 import AIResponseActions from "../message-content/AIResponseActions.jsx";
 
-const actionBtnStyle = {
-  background: "none", border: "none", cursor: "pointer", color: "#999",
-  padding: "4px 6px", borderRadius: 6, display: "flex", alignItems: "center", transition: "all 0.15s",
-};
+const actionBtnClass = "bg-none border-none cursor-pointer text-[#999] px-1.5 py-1 rounded-md flex items-center transition-all duration-150";
 
 function renderMessageContent(text) {
   if (!text) return null;
@@ -24,13 +21,13 @@ function renderMessageContent(text) {
     if (!part) return null;
     const subParts = part.split(/(\[.*?\]\(.*?\))/g);
     return (
-      <span key={i} style={{ whiteSpace: "pre-line" }}>
+      <span key={i} className="whitespace-pre-line">
         {subParts.map((sub, j) => {
           const linkMatch = sub.match(/\[(.*?)\]\((.*?)\)/);
           if (linkMatch) {
             return (
               <a key={`${i}-${j}`} href={linkMatch[2]} target="_blank" rel="noopener noreferrer"
-                style={{ color: "#0066FF", textDecoration: "none", fontWeight: 500, borderBottom: "1px solid transparent", transition: "border-color 0.2s" }}>
+                className="text-[#0066FF] no-underline font-medium border-b border-transparent transition-[border-color] duration-200">
                 {linkMatch[1]}
               </a>
             );
@@ -59,46 +56,34 @@ export default function MessageBubble({ message, isCompact }) {
   };
 
   return (
-    <div style={{
-      display: "flex", flexDirection: "column",
-      alignItems: isUser ? "flex-end" : "flex-start", gap: 4,
-      animation: "msg-appear 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)",
-    }}>
+    <div className={`flex flex-col gap-1 animate-[msg-appear_0.35s_cubic-bezier(0.34,1.56,0.64,1)] ${isUser ? "items-end" : "items-start"}`}>
       {!isUser && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+        <div className="flex items-center gap-2 mb-0.5">
           <CdekAiLogo size={24} />
-          <span style={{ fontSize: 11, color: "#BBB" }}>{message.time}</span>
+          <span className="text-[11px] text-[#BBB]">{message.time}</span>
         </div>
       )}
       {isUser && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
-          <span style={{ fontSize: 11, color: "#BBB" }}>{message.time}</span>
-          <span style={{ fontSize: 12, color: "#777", fontWeight: 500 }}>Вы</span>
-          <div style={{ width: 24, height: 24, borderRadius: "50%", background: "#D4D4D4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, color: "#555" }}>П</div>
+        <div className="flex items-center gap-2 mb-0.5">
+          <span className="text-[11px] text-[#BBB]">{message.time}</span>
+          <span className="text-xs text-[#777] font-medium">Вы</span>
+          <div className="w-6 h-6 rounded-full bg-[#D4D4D4] flex items-center justify-center text-[11px] font-semibold text-[#555]">П</div>
         </div>
       )}
-      <div style={{
-        background: isUser ? "#F0F0F0" : "#FFF",
-        border: isUser ? "none" : "1px solid #EBEBEB",
-        borderRadius: isUser ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
-        padding: isCompact ? "12px 16px" : "16px 20px",
-        maxWidth: isCompact ? "100%" : "85%",
-        fontSize: isCompact ? 13 : 14, lineHeight: 1.6, color: "#1A1A1A",
-        whiteSpace: "pre-line", boxShadow: isUser ? "none" : "0 1px 3px rgba(0,0,0,0.04)",
-      }}>
+      <div className={`leading-[1.6] text-[#1A1A1A] whitespace-pre-line ${isUser ? "bg-[#F0F0F0] border-none rounded-[18px_18px_4px_18px]" : "bg-white border border-[#EBEBEB] rounded-[18px_18px_18px_4px] shadow-[0_1px_3px_rgba(0,0,0,0.04)]"} ${isCompact ? "px-4 py-3 text-[13px] max-w-full" : "px-5 py-4 text-sm max-w-[85%]"}`}>
         {message.isTyping ? <TypingIndicator /> : renderMessageContent(message.text)}
       </div>
       {!isUser && message.file && <AttachmentLink file={message.file} isCompact={isCompact} />}
       {!isUser && !message.isTyping && (
         <>
-          <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4, width: "100%" }}>
-            <button onClick={handleCopy} style={{ ...actionBtnStyle, color: copied ? "#333" : "#999" }} title={copied ? "Скопировано" : "Копировать"}><IconCopy size={14} /></button>
-            <button onClick={handleShare} style={actionBtnStyle} title={shared ? "Ссылка скопирована" : "Поделиться"}><IconShare size={14} /></button>
-            <button style={actionBtnStyle} title="Прослушать"><IconVolume size={14} /></button>
-            <button style={actionBtnStyle} title="Перегенерировать ответ"><IconRefresh size={14} /></button>
-            <div style={{ flex: 1 }} />
-            <button style={actionBtnStyle} title="Полезно"><IconThumbUp size={14} /></button>
-            <button style={actionBtnStyle} title="Не полезно"><IconThumbDown size={14} /></button>
+          <div className="flex items-center gap-1 mt-1 w-full">
+            <button onClick={handleCopy} className={`${actionBtnClass} ${copied ? "!text-[#333]" : ""}`} title={copied ? "Скопировано" : "Копировать"}><IconCopy size={14} /></button>
+            <button onClick={handleShare} className={actionBtnClass} title={shared ? "Ссылка скопирована" : "Поделиться"}><IconShare size={14} /></button>
+            <button className={actionBtnClass} title="Прослушать"><IconVolume size={14} /></button>
+            <button className={actionBtnClass} title="Перегенерировать ответ"><IconRefresh size={14} /></button>
+            <div className="flex-1" />
+            <button className={actionBtnClass} title="Полезно"><IconThumbUp size={14} /></button>
+            <button className={actionBtnClass} title="Не полезно"><IconThumbDown size={14} /></button>
           </div>
           <AIResponseActions isCompact={isCompact} onAction={() => {}} />
         </>

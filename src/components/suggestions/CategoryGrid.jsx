@@ -14,27 +14,16 @@ export default function CategoryGrid({ onSelect, isCompact }) {
   }
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+    <div className="grid grid-cols-3 gap-2">
       {CDEK_ACTIONS.map((a, i) => (
         <button key={i}
           onClick={() => a.shopping ? setShoppingOpen(true) : onSelect(a.q)}
-          style={{
-            background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 14,
-            padding: isCompact ? "10px 8px" : "14px 10px",
-            display: "flex", flexDirection: "column", alignItems: "flex-start",
-            gap: 6, cursor: "pointer", fontFamily: "inherit", textAlign: "left",
-            transition: "all 0.18s", position: "relative",
-          }}>
+          className={`bg-[#F9FAFB] border border-[#E5E7EB] rounded-[14px] flex flex-col items-start gap-1.5 cursor-pointer font-[inherit] text-left transition-all duration-[180ms] relative ${isCompact ? "px-2 py-2.5" : "px-2.5 py-3.5"}`}>
           {a.badge && (
-            <span style={{
-              position: "absolute", top: 6, right: 6,
-              background: "#1A1A1A", color: "#FFF",
-              fontSize: 8, fontWeight: 700, padding: "2px 5px",
-              borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.05em",
-            }}>{a.badge}</span>
+            <span className="absolute top-1.5 right-1.5 bg-[#1A1A1A] text-white text-[8px] font-bold px-[5px] py-0.5 rounded-md uppercase tracking-wide">{a.badge}</span>
           )}
-          <span style={{ fontSize: isCompact ? 18 : 22, lineHeight: 1 }}>{a.icon}</span>
-          <span style={{ fontSize: isCompact ? 10 : 11, fontWeight: 500, color: "#374151", lineHeight: 1.3 }}>{a.label}</span>
+          <span className={`leading-none ${isCompact ? "text-lg" : "text-[22px]"}`}>{a.icon}</span>
+          <span className={`font-medium text-[#374151] leading-tight ${isCompact ? "text-[10px]" : "text-[11px]"}`}>{a.label}</span>
         </button>
       ))}
     </div>

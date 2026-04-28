@@ -5,7 +5,8 @@ export default function CdekAiLogo({ size = 32 }) {
     <img
       src={avatarImg}
       alt="AI Assistant"
-      style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+      className="rounded-full object-cover shrink-0"
+      style={{ width: size, height: size }}
     />
   );
 }

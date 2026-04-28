@@ -4,19 +4,11 @@ const ACTIONS = ["Развернуть мысль", "Короче", "Больш�
 
 export default function AIResponseActions({ isCompact, onAction }) {
   return (
-    <div style={{
-      display: "flex", alignItems: "center", gap: 8, background: "#F5F5F5",
-      border: "1px solid #E8E8E8", borderRadius: 24, padding: "6px 12px", marginTop: 8,
-      width: "fit-content", boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
-    }}>
+    <div className="flex items-center gap-2 bg-[#F5F5F5] border border-[#E8E8E8] rounded-3xl px-3 py-1.5 mt-2 w-fit shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
       <IconWand size={16} />
-      <div style={{ display: "flex", gap: 4 }}>
+      <div className="flex gap-1">
         {ACTIONS.map((act) => (
-          <button key={act} onClick={() => onAction(act)} style={{
-            background: "#EBEBEB", border: "none", borderRadius: 8,
-            padding: "6px 12px", fontSize: isCompact ? 11 : 12, color: "#666",
-            fontWeight: 500, cursor: "pointer", transition: "all 0.15s", fontFamily: "inherit",
-          }}>
+          <button key={act} onClick={() => onAction(act)} className={`bg-[#EBEBEB] border-none rounded-lg px-3 py-1.5 text-[#666] font-medium cursor-pointer transition-all duration-150 font-[inherit] ${isCompact ? "text-[11px]" : "text-xs"}`}>
             {act}
           </button>
         ))}

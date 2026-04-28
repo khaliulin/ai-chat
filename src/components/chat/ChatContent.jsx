@@ -19,14 +19,14 @@ export default function ChatContent({ messages, inputValue, setInputValue, handl
 
   return (
     <>
-      <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", padding: isCompact ? "12px 14px" : "20px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
+      <div ref={scrollRef} className={`flex-1 overflow-y-auto flex flex-col gap-5 ${isCompact ? "px-3.5 py-3" : "px-6 py-5"}`}>
         {showGreeting && !hasUserSent && (
-          <div style={{ marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: isCompact ? 14 : 20 }}>
+          <div className="mb-2">
+            <div className={`flex items-center gap-2.5 ${isCompact ? "mb-3.5" : "mb-5"}`}>
               <CdekAiLogo size={isCompact ? 28 : 36} />
-              <span style={{ fontSize: 12, color: "#999" }}>Сегодня</span>
+              <span className="text-xs text-[#999]">Сегодня</span>
             </div>
-            <h2 style={{ fontSize: isCompact ? 16 : 22, fontWeight: 600, color: "#1A1A1A", margin: "0 0 16px 0", lineHeight: 1.4, letterSpacing: "-0.01em" }}>
+            <h2 className={`font-semibold text-[#1A1A1A] mb-4 leading-[1.4] tracking-tight mt-0 mx-0 ${isCompact ? "text-base" : "text-[22px]"}`}>
               Здравствуйте! Я ИИ-помощник СДЭК. Чем могу помочь?
             </h2>
           </div>
@@ -38,7 +38,7 @@ export default function ChatContent({ messages, inputValue, setInputValue, handl
         {!hasUserSent && <CategoryGrid onSelect={onQuestionSelect} isCompact={isCompact} />}
         {hasUserSent && lastDone && lastType && <FollowUpList responseType={lastType} onSelect={onQuestionSelect} isCompact={isCompact} />}
       </div>
-      <div style={{ padding: isCompact ? "8px 12px 12px" : "8px 20px 16px" }}>
+      <div className={isCompact ? "px-3 pt-2 pb-3" : "px-5 pt-2 pb-4"}>
         <ChatInput value={inputValue} onChange={setInputValue} onSend={handleSend} isCompact={isCompact} />
       </div>
     </>

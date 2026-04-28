@@ -9,7 +9,7 @@ export default function MessageList({ messages, isCompact }) {
   }, [messages]);
 
   return (
-    <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", padding: isCompact ? "12px 14px" : "20px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
+    <div ref={scrollRef} className={`flex-1 overflow-y-auto flex flex-col gap-5 ${isCompact ? "px-3.5 py-3" : "px-6 py-5"}`}>
       {messages.map((msg) => (
         <MessageBubble key={msg.id} message={msg} isCompact={isCompact} />
       ))}
