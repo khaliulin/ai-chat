@@ -12,12 +12,18 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@cdek/primereact": "file:primereact-master",
+    "@tabler/icons-react": "^3.41.1",
+    "primereact": "^10.9.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.4",
     "@vitejs/plugin-react": "^4.3.4",
     "gh-pages": "^6.3.0",
+    "sass": "^1.99.0",
+    "tailwindcss": "^4.2.4",
     "vite": "^6.2.0"
   }
 }
