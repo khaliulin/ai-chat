@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IconCopy, IconShare, IconVolume, IconRefresh, IconThumbUp, IconThumbDown } from "@tabler/icons-react";
+import { Tooltip } from "primereact/tooltip";
 import CdekAiLogo from "../common/CdekAiLogo.jsx";
 import TypingIndicator from "./TypingIndicator.jsx";
 import CodeBlock from "../message-content/CodeBlock.jsx";
@@ -77,13 +78,14 @@ export default function MessageBubble({ message, isCompact }) {
       {!isUser && !message.isTyping && (
         <>
           <div className="flex items-center gap-1 mt-1 w-full">
-            <button onClick={handleCopy} className={`${actionBtnClass} ${copied ? "!text-[#333]" : ""}`} title={copied ? "Скопировано" : "Копировать"}><IconCopy size={14} /></button>
-            <button onClick={handleShare} className={actionBtnClass} title={shared ? "Ссылка скопирована" : "Поделиться"}><IconShare size={14} /></button>
-            <button className={actionBtnClass} title="Прослушать"><IconVolume size={14} /></button>
-            <button className={actionBtnClass} title="Перегенерировать ответ"><IconRefresh size={14} /></button>
+            <Tooltip target=".action-btn" position="top" />
+            <button onClick={handleCopy} className={`action-btn action-btn-copy ${actionBtnClass} ${copied ? "!text-[#333]" : ""}`} data-pr-tooltip={copied ? "Скопировано" : "Копировать"}><IconCopy size={14} /></button>
+            <button onClick={handleShare} className={`action-btn action-btn-share ${actionBtnClass}`} data-pr-tooltip={shared ? "Ссылка скопирована" : "Поделиться"}><IconShare size={14} /></button>
+            <button className={`action-btn action-btn-listen ${actionBtnClass}`} data-pr-tooltip="Прослушать"><IconVolume size={14} /></button>
+            <button className={`action-btn action-btn-regen ${actionBtnClass}`} data-pr-tooltip="Перегенерировать ответ"><IconRefresh size={14} /></button>
             <div className="flex-1" />
-            <button className={actionBtnClass} title="Полезно"><IconThumbUp size={14} /></button>
-            <button className={actionBtnClass} title="Не полезно"><IconThumbDown size={14} /></button>
+            <button className={`action-btn action-btn-like ${actionBtnClass}`} data-pr-tooltip="Полезно"><IconThumbUp size={14} /></button>
+            <button className={`action-btn action-btn-dislike ${actionBtnClass}`} data-pr-tooltip="Не полезно"><IconThumbDown size={14} /></button>
           </div>
           <AIResponseActions isCompact={isCompact} onAction={() => {}} />
         </>

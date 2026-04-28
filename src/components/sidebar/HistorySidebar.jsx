@@ -1,4 +1,5 @@
 import { IconMenu2, IconEdit, IconPin } from "@tabler/icons-react";
+import { Button } from "@cdek/primereact";
 import { useChatHistory } from "../../hooks/useChatHistory.js";
 import HistorySearch from "./HistorySearch.jsx";
 import HistoryItem from "./HistoryItem.jsx";
@@ -22,9 +23,7 @@ export default function HistorySidebar({ onNewChat, onSelectChat, activeChat, co
       <div className="px-3 pt-3 pb-2 flex items-center gap-1.5">
         <button onClick={onToggle} className={iconOnlyBtnClass} title="Свернуть"><IconMenu2 size={18} /></button>
         <div className="flex-1" />
-        <button onClick={onNewChat} className="flex items-center gap-1.5 bg-[#1A1A1A] text-white border-none rounded-[10px] px-3.5 py-[7px] text-xs font-semibold cursor-pointer font-[inherit]">
-          <IconEdit size={16} /> Новый чат
-        </button>
+        <Button severity="primary" size="small" label="Новый чат" icon={<IconEdit size={16} />} onClick={onNewChat} />
       </div>
 
       <HistorySearch value={searchQuery} onChange={setSearchQuery} />

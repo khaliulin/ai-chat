@@ -1,4 +1,5 @@
 import { IconSend, IconMicrophone, IconPaperclip, IconPlayerStop } from "@tabler/icons-react";
+import { InputText } from "@cdek/primereact";
 import { useVoiceInput } from "../../hooks/useVoiceInput.js";
 import { useAutoComplete } from "../../hooks/useAutoComplete.js";
 import VoiceWaveform from "./VoiceWaveform.jsx";
@@ -44,7 +45,7 @@ export default function ChatInput({ value, onChange, onSend, isCompact }) {
         <div className={`absolute top-0 left-0 right-0 text-transparent pointer-events-none whitespace-nowrap overflow-hidden font-[inherit] leading-normal ${isCompact ? "text-[13px]" : "text-sm"}`}>
           {value}<span className="text-[#CCC]">{ghostText}</span>
         </div>
-        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} onKeyDown={handleKeyDown} placeholder="Напишите сообщение..."
+        <InputText value={value} onChange={(e) => onChange(e.target.value)} onKeyDown={handleKeyDown} placeholder="Напишите сообщение..."
           className={`w-full border-none outline-none text-[#1A1A1A] bg-transparent font-[inherit] relative z-[1] ${isCompact ? "text-[13px]" : "text-sm"}`} />
       </div>
       {ghostText && <span className="text-[10px] text-[#AAA] bg-[#F5F5F5] rounded px-1.5 py-0.5 whitespace-nowrap border border-[#E0E0E0] font-medium shrink-0">Tab ↹</span>}
