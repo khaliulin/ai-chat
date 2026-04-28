@@ -52,7 +52,6 @@
 ::-webkit-scrollbar-thumb { background: #DDD; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #BBB; }
 
-/* Глобальные сбросы */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Глобальные сбросы — box-sizing уже обрабатывается Tailwind preflight */
 
 input::placeholder { color: #AAA; }
